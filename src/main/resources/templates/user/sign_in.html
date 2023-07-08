@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/style/user/style.css}">
+</head>
+<body>
+<form th:action="@{/user/sign_in}" method="post">
+    <div class="blockSign">
+        <div class="insideForm">
+            <input type="text" name="login" placeholder="Логин">
+            <input type="password" name="password" placeholder="Пароль">
+            <input type="submit" value="Войти">
+            <div class="blockCreateAccount">
+                нет аккаунта? <a th:href="@{/user/register}">создать учетную запись</a>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>

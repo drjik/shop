@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+</head>
+<body>
+
+<div class="header">
+    <div class="insideHeader">
+        <div class="logo">Diyar</div>
+        <div class="btnsHeader">
+            <div class="btnHeader">
+                <a th:href="@{/form_controller/add_product}">создать продукт</a>
+            </div>
+            <div class="btnHeader">
+                <a th:href="@{/form_controller/add_category}">создать категорию</a>
+            </div>
+            <div class="btnHeader">
+                <a th:href="@{/form_controller/check_recalls}">отзывы</a>
+            </div>
+        </div>
+        <div></div>
+    </div>
+</div>
+
+<div class="form">
+    <form th:action="@{/form_controller/check_recalls}" method="post">
+
+        <h1>Не проверенные отзывы</h1>
+
+        <div class="recall" th:each="recall : ${recalls}">
+            <div class="recallProductName" th:text="${recall.getProduct().getName() + '(id товара - ' + recall.getProduct().getId() + ')'}"></div>
+            <div class="recallName" th:text="${recall.getUser.getName()}"></div>
+            <div class="recallScore" th:text="${recall.getScore()} + ' звезды' "></div>
+            <div class="recallScore" th:text="${recall.getDescription()}"></div>
+
+            <div class="recallsBtns">
+                <button class="confirmBtn" type="submit" name="button" th:value="${recall.id} + '-confirm'">Подтвердить</button>
+                <button class="deleteBtn" type="submit" name="button" th:value="${recall.id} + '-delete'">Удалить</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

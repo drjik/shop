@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" th:href="@{/style/style.css}">
+</head>
+<body>
+  <div th:each="human : ${humans}" style="border-bottom: 1px solid #000;">
+    <p>Имя: <b th:text="${human.name}"></b></p>
+    <p>Возраст: <b th:text="${human.age}"></b></p>
+  </div>
+  <b th:if="${humans.isEmpty()}">In List Human is Empty</b>
+  <p>Средний возраст: <b th:text="${avgAge}"></b></p>
+</body>
+</html>

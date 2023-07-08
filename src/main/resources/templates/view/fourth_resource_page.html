@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" th:href="@{/style/style.css}">
+</head>
+<body>
+  <div class="cites">
+    <div class="blockCity" th:each="key : ${cityToCount.keySet()}">
+      <p class="nameCity">
+        <b>Название города</b>
+        <span th:text="${key}"></span>
+      </p>
+      <p class="countCity">
+        <b>Население</b>
+        <span th:text="${cityToCount.get(key)}"></span>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+</head>
+<body>
+    <div class="blockInfo">
+        <div class="insideBlockInfo">
+            <div>
+                <div class="info nameInfo" th:text="${product.name}"></div>
+                <div class="info categoryInfo" th:text="${'Категория: ' + product.category.name}"></div>
+                <div class="info priceInfo" th:text="${product.price + '₸'}"></div>
+            </div>
+            <div class="recalls">
+                <h2>Отзывы</h2>
+                <form th:action="@{/products/7}" method="post">
+                    <div class="leaveFeedback">
+                        <h2 >Оставьте отзыв!</h2>
+                        <div class="scoreRecall"><input type="number" name="score" placeholder="Сколько звёзд?"></div>
+                        <div class="descriptionRecall">
+                            <input type="text" name="description" placeholder="Введите описание отзыва">
+                        </div>
+                        <button type="submit" name="id" th:value="${product.getId()}">Отправить отзыв</button>
+                    </div>
+                </form>
+                <div class="recall" th:each="recall : ${recallsTested}">
+                    <div class="topRecall">
+                        <div>
+                            <div class="usernameRecall" th:text="${recall.user.name + ' ' + recall.user.lastname}"></div>
+                            <div class="scoreRecall" th:text="${recall.score + ' звёзд'}"></div>
+                        </div>
+                        <div class="publicationDate" th:text="${recall.publication_date}"></div>
+                    </div>
+                    <div class="descriptionRecall" th:text="${recall.description}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

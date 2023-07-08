@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500&display=swap');
+
+* {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+form {
+}
+
+.blockSign {
+    width: 500px;
+    height: 500px;
+    background-color: rgba(0, 0, 0, 0.03);
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50% , -50%)
+}
+
+.insideForm {
+    margin: 25% 25% 0 25%;
+}
+
+form input{
+    width: 100%;
+    padding: 10px;
+    margin: 0 0 15px 0;
+    font-size: 20px;
+    background: #ffffff;
+    outline: none;
+    border: none;
+    box-sizing: border-box;
+}
+
+form input[type="submit"] {
+    margin: 10px 0 0 0;
+    background-color: rgb(44, 140, 140);
+    color: #ffffff;
+}
+
+.blockCreateAccount {
+    font-size: 12px;
+    color: #000000;
+    text-align: center;
+    margin: 10px 0 0 0;
+}
+
+.blockCreateAccount a {
+    color: rgb(44, 140, 140);
+    text-decoration: none;
+}
+

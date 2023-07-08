@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/style/user/style.css}">
+</head>
+<body>
+<form th:action="@{/user/register}" method="post">
+    <div class="blockSign">
+        <div class="insideForm">
+            <input type="text" name = "login" placeholder="Введите Логин">
+            <input type="password" name = "password" placeholder="Введите Пароль">
+            <input type="text" name = "name" placeholder="Введите Имя">
+            <input type="text" name = "lastname" placeholder="Введите Фамилию">
+            <input type="submit" value="Отправить">
+        </div>
+    </div>
+</form>
+</body>
+</html>

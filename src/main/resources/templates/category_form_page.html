@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+</head>
+<body>
+
+<div class="header">
+    <div class="insideHeader">
+        <div class="logo">Diyar</div>
+        <div class="btnsHeader">
+            <div class="btnHeader">
+                <a th:href="@{/form_controller/add_product}">создать продукт</a>
+            </div>
+            <div class="btnHeader">
+                <a th:href="@{/form_controller/add_category}">создать категорию</a>
+            </div>
+            <div class="btnHeader">
+                <a th:href="@{/form_controller/check_recalls}">отзывы</a>
+            </div>
+        </div>
+        <div></div>
+    </div>
+</div>
+
+<div class="form">
+    <form th:action="@{/form_controller/add_category}" method="post">
+        <h1>Создайте Продукт</h1>
+
+        <input type="text" name="categoryName" placeholder="Введите названия категории">
+
+        <button type="submit">Создать категорию</button>
+    </form>
+</div>
+
+</body>
+</html>
