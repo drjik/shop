@@ -28,4 +28,7 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<Recall> recalls;
+
+    @OneToMany(mappedBy = "product")
+    private List<OrderProducts> orderProducts;
 }

@@ -18,8 +18,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long role_id;
-
     @Enumerated
     private Role role;
 
@@ -31,4 +29,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Recall> recalls;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
 }
