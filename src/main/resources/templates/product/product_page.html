@@ -6,22 +6,22 @@
   <link rel="stylesheet" th:href="@{/style/style.css}">
 </head>
 <body>
-  <div class="insideProduct">
-    <div class="blockProduct" th:each="product : ${listProducts}">
-      <p class="categoryProduct">
-        <b>Категория:</b>
-        <span th:text="${product.category}"></span>
-      </p>
-      <p class="nameProduct">
-        <span><a th:href="@{product/7}" th:value="${product.id}" th:text="${product.name}"></a></span>
-      </p>
-      <p class="priceProduct">
-        <span th:text="${product.price + '₸'}"></span>
-      </p>
-      <p class="buyProduct">
-        <button>Добавить в корзину</button>
-      </p>
-    </div>
+<div class="insideProduct">
+  <div class="blockProduct" th:each="product : ${products}">
+    <p class="categoryProduct">
+      <b>Категория:</b>
+      <span th:text="${product.category.name}"></span>
+    </p>
+    <p class="nameProduct">
+      <span><a th:href="${'products/7?id=' + product.id}" th:value="${product.id}" th:text="${product.name}"></a></span>
+    </p>
+    <p class="priceProduct">
+      <span th:text="${product.price + '₸'}"></span>
+    </p>
+    <form class="buyProduct" th:action="@{/products}" method="post">
+      <button type="submit" name="addButton" th:value="${product.id}">Добавить в корзину</button>
+    </form>
   </div>
+</div>
 </body>
 </html>

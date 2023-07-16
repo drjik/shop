@@ -1,9 +1,7 @@
 package drjik.shop.controller;
 
-import drjik.shop.service.DataService;
-import drjik.shop.service.ProductService;
-import drjik.shop.service.RecallService;
-import drjik.shop.service.UserService;
+import drjik.shop.entity.Product;
+import drjik.shop.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,11 +20,22 @@ public class ProductTaskController {
     private final ProductService productService;
     private final RecallService recallService;
     private final UserService userService;
+    private final OrderService orderService;
 
     @GetMapping()
-    public String secondResource(Model model, @RequestParam(name = "page", required = false) Integer page) {
+    public String products(Model model, @RequestParam(name = "page", required = false) Integer page) {
         model.addAttribute("products", dataService.getProduct(Objects.requireNonNullElse(page, 0)));
-        return "data/second_resource_page";
+        return "product/product_page";
+    }
+
+    @PostMapping()
+    public String productsActive(@RequestParam(name = "addButton") Long product) {
+        if (userService.getCurrentUser() == null) {
+            return "redirect:login";
+        } else {
+            orderService.addOrder(userService.getCurrentUser(), productService.getProductById(product));
+        }
+        return "redirect:products";
     }
 
     @GetMapping(path = "/7")
