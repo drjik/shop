@@ -28,11 +28,15 @@ public class ProductTaskController {
     }
 
     @PostMapping()
-    public String productsActive(@RequestParam(name = "addButton") Long product) {
+    public String productsActive(@RequestParam(name = "addButton", required = false) Long product, @RequestParam(name = "removeButton", required = false) Long removeButton) {
         if (userService.getCurrentUser() == null) {
             return "redirect:login";
         } else {
-            orderService.addOrderProducts(userService.getCurrentUser(), productService.getProductById(product));
+            if (product != null) {
+                orderService.addOrderProducts(userService.getCurrentUser(), productService.getProductById(product));
+            } else {
+                orderService.removeOrderProducts(userService.getCurrentUser(), productService.getProductById(removeButton));
+            }
         }
         return "redirect:products";
     }
@@ -45,10 +49,23 @@ public class ProductTaskController {
     }
 
     @PostMapping(path = "/7")
-    public String informationActive(@RequestParam(name = "id") Long productId, @RequestParam(name = "score") Integer score, @RequestParam(name = "description") String description) {
+    public String informationActive(
+            @RequestParam(name = "id", required = false) Long productId,
+            @RequestParam(name = "score") Integer score,
+            @RequestParam(name = "description") String description,
+            @RequestParam(name = "addButton", required = false) Long addButton,
+            @RequestParam(name = "removeButton", required = false) Long removeButton) {
         if (userService.getCurrentUser() != null) {
-            recallService.RecallAdd(userService.getCurrentUser(), productService.getProductById(productId), score, description);
-            return "redirect:/products/7?id=" + productId;
+            if (productId != null) {
+                recallService.RecallAdd(userService.getCurrentUser(), productService.getProductById(productId), score, description);
+                return "redirect:products/7?id=" + productId;
+            } else if (addButton != null) {
+                orderService.addOrderProducts(userService.getCurrentUser(), productService.getProductById(addButton));
+                return "redirect:products/7?id=" + addButton;
+            } else {
+                orderService.removeOrderProducts(userService.getCurrentUser(), productService.getProductById(removeButton));
+                return "redirect:products/7?id=" + removeButton;
+            }
         }
         return "redirect:/login";
     }

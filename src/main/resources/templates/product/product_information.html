@@ -13,6 +13,20 @@
                 <div class="info categoryInfo" th:text="${'Категория: ' + product.category.name}"></div>
                 <div class="info priceInfo" th:text="${product.price + '₸'}"></div>
             </div>
+            <th:block th:if="${!@orderService.isProductInCart(@userService.getCurrentUser(), product)}">
+                <form class="buyProduct" th:action="@{/products}" method="post">
+                    <button type="submit" name="addButton" th:value="${product.id}">Добавить в корзину</button>
+                </form>
+            </th:block>
+            <th:block th:if="${@orderService.isProductInCart(@userService.getCurrentUser(), product)}">
+                <form class="buyProduct" th:action="@{/products}" method="post">
+                    <div>
+                        <button class="minusBtn" type="submit" name="removeButton" th:value="${product.id}">-</button>
+                        <span th:text="${@orderService.countProductsInOrder(@userService.getCurrentUser(), product)}"></span>
+                        <button class="plusBtn" type="submit" name="addButton" th:value="${product.id}">+</button>
+                    </div>
+                </form>
+            </th:block>
             <div class="recalls">
                 <h2>Отзывы</h2>
                 <form th:action="@{/products/7}" method="post">

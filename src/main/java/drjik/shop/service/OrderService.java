@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Service
 
@@ -35,6 +36,17 @@ public class OrderService {
     return false;
   }
 
+  public int countProductsInOrder(User user, Product product) {
+    int count = 0;
+    Order order = orderRepository.findByUserAndStatus(user, Status.CART);
+    for (OrderProducts orderProduct : order.getProducts()) {
+      if (orderProduct.getProduct().equals(product)) {
+        count += 1;
+      }
+    }
+    return count;
+  }
+
   public void addOrder(User user, Status status, String deliveryAddress, Date publicationDate) {
     Order order = new Order();
 
@@ -57,5 +69,10 @@ public class OrderService {
       addOrder(user, Status.CART, null, Calendar.getInstance().getTime());
       addOrderProducts(user, product);
     }
+  }
+
+  public void removeOrderProducts(User user, Product product) {
+    List<OrderProducts> orderProducts = orderProductsRepository.findAllByOrderAndProduct(orderRepository.findByUser(user), product);
+    orderProductsRepository.deleteOrderProducts(orderProducts.get(0));
   }
 }
