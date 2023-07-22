@@ -31,7 +31,9 @@ public class SecurityConfig {
                    .permitAll();
 
         });
-        httpSecurity.formLogin();
+        httpSecurity.formLogin(formLoginConfigurer -> {
+          formLoginConfigurer.defaultSuccessUrl("/products");
+        });
         return httpSecurity.build();
     }
 }

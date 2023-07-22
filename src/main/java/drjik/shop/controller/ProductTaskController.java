@@ -1,6 +1,5 @@
 package drjik.shop.controller;
 
-import drjik.shop.entity.Product;
 import drjik.shop.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -33,7 +32,7 @@ public class ProductTaskController {
         if (userService.getCurrentUser() == null) {
             return "redirect:login";
         } else {
-            orderService.addOrder(userService.getCurrentUser(), productService.getProductById(product));
+            orderService.addOrderProducts(userService.getCurrentUser(), productService.getProductById(product));
         }
         return "redirect:products";
     }

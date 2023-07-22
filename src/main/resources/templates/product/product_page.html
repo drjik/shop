@@ -1,27 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-  <link rel="stylesheet" th:href="@{/style/style.css}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
 </head>
 <body>
 <div class="insideProduct">
-  <div class="blockProduct" th:each="product : ${products}">
-    <p class="categoryProduct">
-      <b>Категория:</b>
-      <span th:text="${product.category.name}"></span>
-    </p>
-    <p class="nameProduct">
-      <span><a th:href="${'products/7?id=' + product.id}" th:value="${product.id}" th:text="${product.name}"></a></span>
-    </p>
-    <p class="priceProduct">
-      <span th:text="${product.price + '₸'}"></span>
-    </p>
-    <form class="buyProduct" th:action="@{/products}" method="post">
-      <button type="submit" name="addButton" th:value="${product.id}">Добавить в корзину</button>
-    </form>
-  </div>
+    <div class="blockProduct" th:each="product : ${products}">
+        <p class="categoryProduct">
+            <b>Категория:</b>
+            <span th:text="${product.category.name}"></span>
+        </p>
+        <p class="nameProduct">
+            <span><a th:href="${'products/7?id=' + product.id}" th:value="${product.id}" th:text="${product.name}"></a></span>
+        </p>
+        <p class="priceProduct">
+            <span th:text="${product.price + '₸'}"></span>
+        </p>
+        <th:block th:if="${!@orderService.isProductInCart(@userService.getCurrentUser(), product)}">
+            <form class="buyProduct" th:action="@{/products}" method="post">
+                <button type="submit" name="addButton" th:value="${product.id}">Добавить в корзину</button>
+            </form>
+        </th:block>
+        <th:block th:if="${@orderService.isProductInCart(@userService.getCurrentUser(), product)}">
+          Товар уже добавлен в корзину
+        </th:block>
+    </div>
 </div>
 </body>
 </html>
