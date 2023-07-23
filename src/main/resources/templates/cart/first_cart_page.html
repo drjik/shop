@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+</head>
+<body>
+    <div class="blockCart">
+        <div class="insideBlockCart">
+            <div class="leftCart">
+                <div class="cartProducts">
+                    <div class="cartProduct">
+                        <div class="cartProductName">IPhone 14</div>
+                        <div class="cartProductPrice">599999₸</div>
+                        <div class="cartProductPanel">
+                            <button class="minusBtn" type="submit" name="removeButton">-</button>
+                            <span>1</span>
+                            <button class="plusBtn" type="submit" name="addButton">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rightCart">
+                <div class="totalCost">
+                    <div class="totalText">Общая стоимость</div>
+                    <div>100000₸</div>
+                </div>
+                <div class="buttonDesign">
+                    <button>Перейти к оформлению</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

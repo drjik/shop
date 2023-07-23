@@ -11,6 +11,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface OrderProductsRepository extends JpaRepository<OrderProducts, Long> {
+
+    @Query("select distinct o from OrderProducts o where o.order = ?1")
+    List<OrderProducts> findAllOrderProductsByOrder(Order order);
     List<OrderProducts> findAllByOrderAndProduct(Order order, Product product);
 
     @Modifying

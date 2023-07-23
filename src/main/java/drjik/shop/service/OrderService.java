@@ -9,6 +9,7 @@ import drjik.shop.repository.OrderProductsRepository;
 import drjik.shop.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -46,6 +47,14 @@ public class OrderService {
     }
     return count;
   }
+
+//  public List<Product> productsList(User user) {
+//    List<Product> products = new ArrayList<>();
+//
+//    for (OrderProducts orderProducts : orderProductsRepository.findAllOrderProductsByOrder(orderRepository.findByUser(user))) {
+//
+//    }
+//  }
 
   public void addOrder(User user, Status status, String deliveryAddress, Date publicationDate) {
     Order order = new Order();
