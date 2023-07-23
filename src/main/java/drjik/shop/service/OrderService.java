@@ -25,6 +25,17 @@ public class OrderService {
     this.orderProductsRepository = orderProductsRepository;
   }
 
+  public boolean isProductsInCart(User user) {
+    if (user == null) return false;
+    Order order = orderRepository.findByUserAndStatus(user, Status.CART);
+    if (order == null) return false;
+
+    try {
+      return order.getProducts().get(0) != null;
+    } catch (Exception ignored) {}
+    return false;
+  }
+
   public boolean isProductInCart(User user, Product product) {
     if (user == null) return false;
     Order order = orderRepository.findByUserAndStatus(user, Status.CART);
@@ -48,13 +59,27 @@ public class OrderService {
     return count;
   }
 
-//  public List<Product> productsList(User user) {
-//    List<Product> products = new ArrayList<>();
-//
-//    for (OrderProducts orderProducts : orderProductsRepository.findAllOrderProductsByOrder(orderRepository.findByUser(user))) {
-//
-//    }
-//  }
+  public List<Product> productsListWithUniqueValues(User user) {
+    return orderProductsRepository.findAllProductsByOrderWithUniqueValues(orderRepository.findByUserAndStatus(user, Status.CART));
+  }
+
+  private List<Product> productsList(User user) {
+    List<Product> products = new ArrayList<>();
+
+    for (OrderProducts orderProducts : orderProductsRepository.findAllOrderProductsByOrder(orderRepository.findByUserAndStatus(user, Status.CART))) {
+      products.add(orderProducts.getProduct());
+    }
+
+    return products;
+  }
+
+  public int totalPrice(User user) {
+    int count = 0;
+    for (Product product : productsList(user)) {
+      count += product.getPrice();
+    }
+    return count;
+  }
 
   public void addOrder(User user, Status status, String deliveryAddress, Date publicationDate) {
     Order order = new Order();
@@ -68,10 +93,10 @@ public class OrderService {
   }
 
   public void addOrderProducts(User user, Product product) {
-    if (orderRepository.findByUser(user) != null) {
+    if (orderRepository.findByUserAndStatus(user, Status.CART) != null) {
       OrderProducts orderProducts = new OrderProducts();
 
-      orderProducts.setOrder(orderRepository.findByUser(user));
+      orderProducts.setOrder(orderRepository.findByUserAndStatus(user, Status.CART));
       orderProducts.setProduct(product);
       orderProductsRepository.save(orderProducts);
     } else {
@@ -81,7 +106,7 @@ public class OrderService {
   }
 
   public void removeOrderProducts(User user, Product product) {
-    List<OrderProducts> orderProducts = orderProductsRepository.findAllByOrderAndProduct(orderRepository.findByUser(user), product);
+    List<OrderProducts> orderProducts = orderProductsRepository.findAllByOrderAndProduct(orderRepository.findByUserAndStatus(user, Status.CART), product);
     orderProductsRepository.deleteOrderProducts(orderProducts.get(0));
   }
 }

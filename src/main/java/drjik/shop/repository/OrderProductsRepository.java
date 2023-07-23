@@ -12,8 +12,11 @@ import java.util.List;
 
 public interface OrderProductsRepository extends JpaRepository<OrderProducts, Long> {
 
-    @Query("select distinct o from OrderProducts o where o.order = ?1")
+    @Query("select o from OrderProducts o where o.order = ?1")
     List<OrderProducts> findAllOrderProductsByOrder(Order order);
+    @Query("select distinct o.product from OrderProducts o where o.order = ?1")
+    List<Product> findAllProductsByOrderWithUniqueValues(Order order);
+
     List<OrderProducts> findAllByOrderAndProduct(Order order, Product product);
 
     @Modifying
