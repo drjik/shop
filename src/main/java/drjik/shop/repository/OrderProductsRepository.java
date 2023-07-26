@@ -23,4 +23,8 @@ public interface OrderProductsRepository extends JpaRepository<OrderProducts, Lo
     @Transactional
     @Query("delete from OrderProducts o where o = ?1")
     void deleteOrderProducts(OrderProducts orderProducts);
+    @Modifying
+    @Transactional
+    @Query("delete from OrderProducts o where o.order = ?1")
+    void deleteOrderProductsByOrder(Order order);
 }

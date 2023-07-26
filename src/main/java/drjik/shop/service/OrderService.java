@@ -105,6 +105,12 @@ public class OrderService {
     }
   }
 
+  public void updateCreateOrder(User user, String address) {
+    Order order = orderRepository.findByUserAndStatus(user, Status.CART);
+    orderRepository.updateCreateOrder(order, address, Status.ORDER_CREATED, Calendar.getInstance().getTime());
+    orderProductsRepository.deleteOrderProductsByOrder(order);
+  }
+
   public void removeOrderProducts(User user, Product product) {
     List<OrderProducts> orderProducts = orderProductsRepository.findAllByOrderAndProduct(orderRepository.findByUserAndStatus(user, Status.CART), product);
     orderProductsRepository.deleteOrderProducts(orderProducts.get(0));

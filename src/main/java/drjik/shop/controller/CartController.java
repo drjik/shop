@@ -29,16 +29,31 @@ public class CartController {
   @PostMapping()
   public String cartActive(
           @RequestParam(name = "removeButton", required = false) Long removeButton,
-          @RequestParam(name = "addButton", required = false) Long addButton,
-          @RequestParam(name = "continueButton", required = false) String continueButton
+          @RequestParam(name = "addButton", required = false) Long addButton
   ) {
     if (removeButton != null) {
       orderService.removeOrderProducts(userService.getCurrentUser(), productService.getProductById(removeButton));
     } else if (addButton != null) {
       orderService.addOrderProducts(userService.getCurrentUser(), productService.getProductById(addButton));
     } else {
-      System.out.println(continueButton);
+      return "redirect:/cart/checkout";
     }
     return "redirect:/cart";
+  }
+
+  @GetMapping(path = "/checkout")
+  public String checkout(Model model) {
+    model.addAttribute("products", orderService.productsListWithUniqueValues(userService.getCurrentUser()));
+    model.addAttribute("totalPrice", orderService.totalPrice(userService.getCurrentUser()));
+    return "cart/second_cart_page";
+  }
+
+  @PostMapping(path = "/checkout")
+  public String checkoutActive(@RequestParam(name = "address") String address) {
+    if (address != null) {
+      orderService.updateCreateOrder(userService.getCurrentUser(), address);
+      return "redirect:/cart";
+    }
+    return "redirect:/cart/checkout";
   }
 }

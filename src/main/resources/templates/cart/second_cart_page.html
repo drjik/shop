@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" th:href="@{/style/style.css}">
+</head>
+<body>
+<div class="blockCart">
+  <div class="insideBlockCartCheckout">
+    <div class="cartProducts">
+      <div class="cartProduct" th:each="product : ${products}">
+        <div class="cartProductName" th:text="${product.getName()}"></div>
+        <div class="cartProductPrice" th:text="${product.getPrice()} + '₸'"></div>
+        <div class="cartProductPanel" th:text="${@orderService.countProductsInOrder(@userService.getCurrentUser(), product) + 'шт'}"></div>
+      </div>
+    </div>
+    <div class="underCart">
+      <div class="totalCost">
+        <div class="totalText">Общая стоимость</div>
+        <div th:text="${totalPrice} + '₸'"></div>
+      </div>
+      <form th:action="@{/cart/checkout}" method="post">
+        <div class="inputAddress">
+          <input type="text" placeholder="Введите адресс" name="address">
+        </div>
+        <div class="buttonDesign">
+          <button name="continueButton" type="submit">Создать Заказ</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>
