@@ -14,9 +14,13 @@ import java.util.List;
 @AllArgsConstructor
 public class DataService {
     private final ProductRepository productRepository;
-    public List<Product> getProduct(Integer numberPage) {
+    public List<Product> getProduct(Integer numberPage, String search) {
         Pageable pageable = PageRequest.of(numberPage, 2);
         Page<Product> productPage = productRepository.findAll(pageable);
+
+        if (search != null) {
+            productPage = productRepository.findAllByName(search, pageable);
+        }
 
         return productPage.getContent();
     }

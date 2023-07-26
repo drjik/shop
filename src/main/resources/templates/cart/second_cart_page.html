@@ -6,6 +6,27 @@
   <link rel="stylesheet" th:href="@{/style/style.css}">
 </head>
 <body>
+<header>
+  <div class="leftBlocks">
+    <div class="textBlock"><a th:href="@{/products}">продукты</a></div>
+  </div>
+  <div class="searchProduct">
+    <form th:action="@{/products}" method="get">
+      <div>
+        <input type="text" placeholder="Я хочу найти" name="search">
+        <button type="submit">
+          <svg width="20" height="20" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="19.5138" y="18.5495" width="7" height="2" transform="rotate(45 19.5138 18.5495)" fill="black"/>
+            <circle cx="11.5" cy="11.5" r="10.5" stroke-width="2" stroke="black"/>
+          </svg>
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="rightBlocks">
+    <a id="basket" class="iconBlock" th:href="@{/cart}"><img src="/images/basket.svg" alt="" style="width: 35px; height: 35px"></a>
+  </div>
+</header>
 <div class="blockCart">
   <div class="insideBlockCartCheckout">
     <div class="cartProducts">

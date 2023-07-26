@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Objects;
-
 @Controller
 @RequestMapping(path = "/products")
 @AllArgsConstructor
@@ -22,8 +20,11 @@ public class ProductTaskController {
     private final OrderService orderService;
 
     @GetMapping()
-    public String products(Model model, @RequestParam(name = "page", required = false) Integer page) {
-        model.addAttribute("products", dataService.getProduct(Objects.requireNonNullElse(page, 0)));
+    public String products(Model model, @RequestParam(name = "page", required = false) Integer page, @RequestParam(name = "search", required = false) String search) {
+        if (page == null) {
+            page = 0;
+        }
+        model.addAttribute("products", dataService.getProduct(page, search));
         return "product/product_page";
     }
 
