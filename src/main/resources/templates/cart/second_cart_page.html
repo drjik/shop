@@ -25,21 +25,22 @@
   </div>
   <div class="rightBlocks">
     <a id="basket" class="iconBlock" th:href="@{/cart}"><img src="/images/basket.svg" alt="" style="width: 35px; height: 35px"></a>
+    <a class="iconBlock" th:href="@{/personal}"><img src="/images/user.png" alt="" style="width: 35px; height: 35px"></a>
   </div>
 </header>
 <div class="blockCart">
-  <div class="insideBlockCartCheckout">
+  <div class="insideBlock">
     <div class="cartProducts">
       <div class="cartProduct" th:each="product : ${products}">
         <div class="cartProductName" th:text="${product.getName()}"></div>
         <div class="cartProductPrice" th:text="${product.getPrice()} + '₸'"></div>
-        <div class="cartProductPanel" th:text="${@orderService.countProductsInOrder(@userService.getCurrentUser(), product) + 'шт'}"></div>
+        <div class="cartProductPanel" th:text="${@orderService.countProductsInOrder(@userService.getCurrentUser(), product, true) + 'шт'}"></div>
       </div>
     </div>
     <div class="underCart">
       <div class="totalCost">
         <div class="totalText">Общая стоимость</div>
-        <div th:text="${totalPrice} + '₸'"></div>
+        <div th:text="${@orderService.totalPrice(@userService.getCurrentUser(), true)} + '₸'"></div>
       </div>
       <form th:action="@{/cart/checkout}" method="post">
         <div class="inputAddress">

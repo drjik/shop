@@ -9,9 +9,16 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.Date;
+import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
+
+  @Query("select o from Order o where o.user = ?1 and o.status != ?2")
+  List<Order> findAllByUserAndNonStatus(User user, Status status);
   Order findByUserAndStatus(User user, Status status);
+
+  @Query("select o from Order o where o.user = ?1 and o.status != ?2")
+  Order findByUserAndNonStatus(User user, Status status);
   @Modifying
   @Transactional
   @Query("update Order o set o.deliveryAddress = ?2, o.status = ?3, o.publicationDate = ?4 where o = ?1")

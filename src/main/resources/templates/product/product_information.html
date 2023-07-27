@@ -25,6 +25,7 @@
     </div>
     <div class="rightBlocks">
         <a id="basket" class="iconBlock" th:href="@{/cart}"><img src="/images/basket.svg" alt="" style="width: 35px; height: 35px"></a>
+        <a class="iconBlock" th:href="@{/personal}"><img src="/images/user.png" alt="" style="width: 35px; height: 35px"></a>
     </div>
 </header>
     <div class="blockInfo">
@@ -43,7 +44,7 @@
                 <form class="buyProduct" th:action="@{/products}" method="post">
                     <div>
                         <button class="minusBtn" type="submit" name="removeButton" th:value="${product.id}">-</button>
-                        <span th:text="${@orderService.countProductsInOrder(@userService.getCurrentUser(), product)}"></span>
+                        <span th:text="${@orderService.countProductsInOrder(@userService.getCurrentUser(), product, true)}"></span>
                         <button class="plusBtn" type="submit" name="addButton" th:value="${product.id}">+</button>
                     </div>
                 </form>

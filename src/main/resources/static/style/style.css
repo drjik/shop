@@ -310,8 +310,8 @@ body {
     font-size: 17px;
 }
 /*CHECKOUT*/
-.insideBlockCartCheckout {
-    margin: 5% 20%;
+.insideBlock {
+    margin: 5% 17%;
 }
 
 .underCart {
@@ -410,9 +410,49 @@ header {
 .iconBlock img {
     transform: rotate(0deg);
     transition: all 1.5s;
+    margin: 0 10px 0 0;
 }
 
 .iconBlock img:hover {
     transform: rotate(360deg);
 }
+/*PERSONAL*/
+.titlePersonal {
+    font-size: 35px;
+    margin: 0 0 20px 0;
+}
 
+.orderPersonal {
+    font-size: 17px;
+    margin: 0 0 20px 0;
+    background-color: #eeeeee;
+    padding: 10px;
+}
+
+.statusOrder {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+}
+
+.table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+    padding: 10px 0 10px 0;
+    border-bottom: 1px solid rgba(204,214,228,.6);
+}
+
+th {
+    text-align: left;
+    padding: 8px;
+}
+
+td {
+    padding: 8px;
+}

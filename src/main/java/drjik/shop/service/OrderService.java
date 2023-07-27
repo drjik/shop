@@ -25,6 +25,10 @@ public class OrderService {
     this.orderProductsRepository = orderProductsRepository;
   }
 
+  public List<Order> ordersNonStatusCart(User user) {
+    return orderRepository.findAllByUserAndNonStatus(user, Status.CART);
+  }
+
   public boolean isProductsInCart(User user) {
     if (user == null) return false;
     Order order = orderRepository.findByUserAndStatus(user, Status.CART);
@@ -48,9 +52,12 @@ public class OrderService {
     return false;
   }
 
-  public int countProductsInOrder(User user, Product product) {
+  public int countProductsInOrder(User user, Product product, Boolean status) { //status true - статус должен быть CART, false - должен быть не CART
     int count = 0;
     Order order = orderRepository.findByUserAndStatus(user, Status.CART);
+    if (!status) {
+      order = orderRepository.findByUserAndNonStatus(user, Status.CART);
+    }
     for (OrderProducts orderProduct : order.getProducts()) {
       if (orderProduct.getProduct().equals(product)) {
         count += 1;
@@ -59,24 +66,40 @@ public class OrderService {
     return count;
   }
 
-  public List<Product> productsListWithUniqueValues(User user) {
-    return orderProductsRepository.findAllProductsByOrderWithUniqueValues(orderRepository.findByUserAndStatus(user, Status.CART));
+  public List<Product> productsListWithUniqueValues(User user, Boolean status) { //status true - статус должен быть CART, false - должен быть не CART
+    if (status) {
+      return orderProductsRepository.findAllProductsByOrderWithUniqueValues(orderRepository.findByUserAndStatus(user, Status.CART));
+    } else {
+      return orderProductsRepository.findAllProductsByOrderWithUniqueValues(orderRepository.findByUserAndNonStatus(user, Status.CART));
+    }
   }
 
-  private List<Product> productsList(User user) {
+  private List<Product> productsList(User user, Boolean status) { //status true - статус должен быть CART, false - должен быть не CART
     List<Product> products = new ArrayList<>();
 
-    for (OrderProducts orderProducts : orderProductsRepository.findAllOrderProductsByOrder(orderRepository.findByUserAndStatus(user, Status.CART))) {
-      products.add(orderProducts.getProduct());
+    if (status) {
+      for (OrderProducts orderProducts : orderProductsRepository.findAllOrderProductsByOrder(orderRepository.findByUserAndStatus(user, Status.CART))) {
+        products.add(orderProducts.getProduct());
+      }
+    } else {
+      for (OrderProducts orderProducts : orderProductsRepository.findAllOrderProductsByOrder(orderRepository.findByUserAndNonStatus(user, Status.CART))) {
+        products.add(orderProducts.getProduct());
+      }
     }
 
     return products;
   }
 
-  public int totalPrice(User user) {
+  public int totalPrice(User user, boolean status) { //status true - статус должен быть CART, false - должен быть не CART
     int count = 0;
-    for (Product product : productsList(user)) {
-      count += product.getPrice();
+    if (status) {
+      for (Product product : productsList(user, true)) {
+        count += product.getPrice();
+      }
+    } else {
+      for (Product product : productsList(user, false)) {
+        count += product.getPrice();
+      }
     }
     return count;
   }
@@ -108,7 +131,6 @@ public class OrderService {
   public void updateCreateOrder(User user, String address) {
     Order order = orderRepository.findByUserAndStatus(user, Status.CART);
     orderRepository.updateCreateOrder(order, address, Status.ORDER_CREATED, Calendar.getInstance().getTime());
-    orderProductsRepository.deleteOrderProductsByOrder(order);
   }
 
   public void removeOrderProducts(User user, Product product) {

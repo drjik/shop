@@ -17,6 +17,9 @@ public interface OrderProductsRepository extends JpaRepository<OrderProducts, Lo
     @Query("select distinct o.product from OrderProducts o where o.order = ?1")
     List<Product> findAllProductsByOrderWithUniqueValues(Order order);
 
+    @Query("select count(o) from OrderProducts o where o.order = ?1")
+    int countProductsInOrderProducts(Order order);
+
     List<OrderProducts> findAllByOrderAndProduct(Order order, Product product);
 
     @Modifying
