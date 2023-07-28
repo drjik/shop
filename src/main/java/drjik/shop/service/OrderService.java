@@ -52,12 +52,9 @@ public class OrderService {
     return false;
   }
 
-  public int countProductsInOrder(User user, Product product, Boolean status) { //status true - статус должен быть CART, false - должен быть не CART
+  public int countProductsInOrder(User user, Product product) {
     int count = 0;
     Order order = orderRepository.findByUserAndStatus(user, Status.CART);
-    if (!status) {
-      order = orderRepository.findByUserAndNonStatus(user, Status.CART);
-    }
     for (OrderProducts orderProduct : order.getProducts()) {
       if (orderProduct.getProduct().equals(product)) {
         count += 1;
@@ -66,40 +63,45 @@ public class OrderService {
     return count;
   }
 
-  public List<Product> productsListWithUniqueValues(User user, Boolean status) { //status true - статус должен быть CART, false - должен быть не CART
-    if (status) {
-      return orderProductsRepository.findAllProductsByOrderWithUniqueValues(orderRepository.findByUserAndStatus(user, Status.CART));
-    } else {
-      return orderProductsRepository.findAllProductsByOrderWithUniqueValues(orderRepository.findByUserAndNonStatus(user, Status.CART));
+  public int countProductsInOrder(Order order, Product product) {
+    int count = 0;
+    for (OrderProducts orderProduct : order.getProducts()) {
+      if (orderProduct.getProduct().equals(product)) {
+        count += 1;
+      }
     }
+    return count;
   }
 
-  private List<Product> productsList(User user, Boolean status) { //status true - статус должен быть CART, false - должен быть не CART
+  public List<Product> productsListWithUniqueValues(User user) {
+    return orderProductsRepository.findAllProductsByOrderWithUniqueValues(orderRepository.findByUserAndStatus(user, Status.CART));
+  }
+
+  public List<Product> productsListWithUniqueValues(Order order) {
+    return orderProductsRepository.findAllProductsByOrderWithUniqueValues(order);
+  }
+
+  private List<Product> productsList(Order order) {
     List<Product> products = new ArrayList<>();
 
-    if (status) {
-      for (OrderProducts orderProducts : orderProductsRepository.findAllOrderProductsByOrder(orderRepository.findByUserAndStatus(user, Status.CART))) {
-        products.add(orderProducts.getProduct());
-      }
-    } else {
-      for (OrderProducts orderProducts : orderProductsRepository.findAllOrderProductsByOrder(orderRepository.findByUserAndNonStatus(user, Status.CART))) {
-        products.add(orderProducts.getProduct());
-      }
+    for (OrderProducts orderProducts : orderProductsRepository.findAllOrderProductsByOrder(order)) {
+      products.add(orderProducts.getProduct());
     }
 
     return products;
   }
 
-  public int totalPrice(User user, boolean status) { //status true - статус должен быть CART, false - должен быть не CART
+  public int totalPrice(User user) {
     int count = 0;
-    if (status) {
-      for (Product product : productsList(user, true)) {
-        count += product.getPrice();
-      }
-    } else {
-      for (Product product : productsList(user, false)) {
-        count += product.getPrice();
-      }
+    for (Product product : productsList(orderRepository.findByUserAndStatus(user, Status.CART))) {
+       count += product.getPrice();
+    }
+    return count;
+  }
+  public int totalPrice(Order order) {
+    int count = 0;
+    for (Product product : productsList(order)) {
+       count += product.getPrice();
     }
     return count;
   }

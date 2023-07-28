@@ -21,7 +21,7 @@ public class CartController {
 
   @GetMapping()
   public String cart(Model model) {
-    model.addAttribute("products", orderService.productsListWithUniqueValues(userService.getCurrentUser(), true));
+    model.addAttribute("products", orderService.productsListWithUniqueValues(userService.getCurrentUser()));
     return "cart/first_cart_page";
   }
 
@@ -42,7 +42,7 @@ public class CartController {
 
   @GetMapping(path = "/checkout")
   public String checkout(Model model) {
-    model.addAttribute("products", orderService.productsListWithUniqueValues(userService.getCurrentUser(), true));
+    model.addAttribute("products", orderService.productsListWithUniqueValues(userService.getCurrentUser()));
     return "cart/second_cart_page";
   }
 

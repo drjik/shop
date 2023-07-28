@@ -42,7 +42,7 @@
                             <div class="cartProductPanel">
                                 <form th:action="@{/cart}" method="post">
                                     <button class="minusBtn" type="submit" name="removeButton" th:value="${product.id}">-</button>
-                                    <span th:text="${@orderService.countProductsInOrder(@userService.getCurrentUser(), product, true)}"></span>
+                                    <span th:text="${@orderService.countProductsInOrder(@userService.getCurrentUser(), product)}"></span>
                                     <button class="plusBtn" type="submit" name="addButton" th:value="${product.id}">+</button>
                                 </form>
                             </div>
@@ -52,7 +52,7 @@
                 <div class="rightCart">
                     <div class="totalCost">
                         <div class="totalText">Общая стоимость</div>
-                        <div th:text="${@orderService.totalPrice(@userService.getCurrentUser(), true)} + '₸'"></div>
+                        <div th:text="${@orderService.totalPrice(@userService.getCurrentUser())} + '₸'"></div>
                     </div>
                     <div class="buttonDesign">
                         <form th:action="@{/cart}" method="post">

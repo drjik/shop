@@ -35,7 +35,7 @@
       <div class="orderPersonal" th:each="order : ${orders}">
         <div class="statusOrder" th:text="'Заказ в статусе «' + ${order.getStatus()} + '»'"></div>
         <div class="infoOrder" th:text="'Заказ №' + ${order.getId()} + ', ' + ${order.getPublicationDate()} + ', ' + ${@orderProductsRepository.countProductsInOrderProducts(order)} + ' товар(а)'"></div>
-        <div class="totalCost" th:text="'Общая сумма: ' + ${@orderService.totalPrice(@userService.getCurrentUser(), false)}"></div>
+        <div class="totalCost" th:text="'Общая сумма: ' + ${@orderService.totalPrice(order)}"></div>
         <table class="table">
           <tr>
             <th>Наименование</th>
@@ -43,11 +43,11 @@
             <th>Цена</th>
             <th>Сумма</th>
           </tr>
-          <tr th:each="product : ${@orderService.productsListWithUniqueValues(@userService.getCurrentUser(), false)}">
+          <tr th:each="product : ${@orderService.productsListWithUniqueValues(order)}">
             <td th:text="${product.getName()}"></td>
-            <td th:text="${@orderService.countProductsInOrder(@userService.getCurrentUser(), product, false)} + 'шт'"></td>
+            <td th:text="${@orderService.countProductsInOrder(order, product)} + 'шт'"></td>
             <td th:text="${product.getPrice()} + '₸'"></td>
-            <td th:text="${product.getPrice() * @orderService.countProductsInOrder(@userService.getCurrentUser(), product, false)} + '₸'"></td>
+            <td th:text="${product.getPrice() * @orderService.countProductsInOrder(order, product)} + '₸'"></td>
           </tr>
         </table>
       </div>

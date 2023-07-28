@@ -49,7 +49,7 @@
             <form class="buyProduct" th:action="@{/products}" method="post">
                 <div>
                     <button class="minusBtn" type="submit" name="removeButton" th:value="${product.id}">-</button>
-                    <span th:text="${@orderService.countProductsInOrder(@userService.getCurrentUser(), product, true)}"></span>
+                    <span th:text="${@orderService.countProductsInOrder(@userService.getCurrentUser(), product)}"></span>
                     <button class="plusBtn" type="submit" name="addButton" th:value="${product.id}">+</button>
                 </div>
             </form>
