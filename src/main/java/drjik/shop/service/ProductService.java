@@ -1,11 +1,12 @@
 package drjik.shop.service;
 
-import drjik.shop.pojo.Product;
+import drjik.shop.entity.Product;
 import drjik.shop.repository.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -16,14 +17,22 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    private static final Product[] PRODUCTS = new Product[] {
-        new Product("Смартфон", "iPhone 14", 359_000),
-        new Product("Смартфон", "Samsung Galaxy A10", 159_000),
-        new Product("Наушники", "Airpods Pro", 100_000),
-        new Product("Наушники", "Airpods Pro 2", 150_000)
-    };
-
     public drjik.shop.entity.Product getProductById(Long productId) {
         return productRepository.productById(productId);
+    }
+    public List<Product> getProduct(Integer numberPage, String search) {
+        Pageable pageable = PageRequest.of(numberPage, 2);
+        Page<Product> productPage = productRepository.findAll(pageable);
+
+        if (search != null) {
+            productPage = productRepository.findAllByName(search, pageable);
+        }
+
+        return productPage.getContent();
+    }
+
+
+    public List<Product> getList() {
+        return productRepository.findAll();
     }
 }

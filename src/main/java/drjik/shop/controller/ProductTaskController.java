@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping(path = "/products")
 @AllArgsConstructor
 public class ProductTaskController {
-    private final DataService dataService;
     private final ProductService productService;
     private final RecallService recallService;
     private final UserService userService;
@@ -24,7 +23,7 @@ public class ProductTaskController {
         if (page == null) {
             page = 0;
         }
-        model.addAttribute("products", dataService.getProduct(page, search));
+        model.addAttribute("products", productService.getProduct(page, search));
         return "product/product_page";
     }
 
