@@ -44,6 +44,7 @@ public class ProductTaskController {
     @GetMapping(path = "/7")
     public String information(Model model, @RequestParam(name = "id") Long productId) {
         model.addAttribute("product", productService.getProductById(productId));
+        model.addAttribute("rating", recallService.averageRating(recallService.getRecallsByProductIdTested(productId)));
         model.addAttribute("recallsTested", recallService.getRecallsByProductIdTested(productId));
         return "product/product_information";
     }
@@ -51,20 +52,20 @@ public class ProductTaskController {
     @PostMapping(path = "/7")
     public String informationActive(
             @RequestParam(name = "id", required = false) Long productId,
-            @RequestParam(name = "score") Integer score,
-            @RequestParam(name = "description") String description,
+            @RequestParam(name = "score", required = false) Integer score,
+            @RequestParam(name = "description", required = false) String description,
             @RequestParam(name = "addButton", required = false) Long addButton,
             @RequestParam(name = "removeButton", required = false) Long removeButton) {
         if (userService.getCurrentUser() != null) {
             if (productId != null) {
                 recallService.RecallAdd(userService.getCurrentUser(), productService.getProductById(productId), score, description);
-                return "redirect:products/7?id=" + productId;
+                return "redirect:7?id=" + productId;
             } else if (addButton != null) {
                 orderService.addOrderProducts(userService.getCurrentUser(), productService.getProductById(addButton));
-                return "redirect:products/7?id=" + addButton;
+                return "redirect:7?id=" + addButton;
             } else {
                 orderService.removeOrderProducts(userService.getCurrentUser(), productService.getProductById(removeButton));
-                return "redirect:products/7?id=" + removeButton;
+                return "redirect:7?id=" + removeButton;
             }
         }
         return "redirect:/login";

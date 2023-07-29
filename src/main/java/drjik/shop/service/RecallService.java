@@ -6,7 +6,7 @@ import drjik.shop.entity.User;
 import drjik.shop.repository.RecallRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -19,13 +19,12 @@ public class RecallService {
 
     public void RecallAdd(User user, Product product, int score, String description) {
         Recall recall = new Recall();
-        Calendar cal = Calendar.getInstance();
 
         recall.setUser(user);
         recall.setProduct(product);
         recall.setScore(score);
         recall.setDescription(description);
-        recall.setPublication_date(cal.getTime());
+        recall.setPublication_date(LocalDate.now());
 
         recallRepository.save(recall);
     }
@@ -44,5 +43,23 @@ public class RecallService {
 
     public void deleteRecall(Long id) {
         recallRepository.deleteRecallById(id);
+    }
+
+    public int averageRating(List<Recall> recalls) {
+        if (recalls.size() == 0) {
+            return 0;
+        }
+
+        int count = 0;
+
+        for (Recall recall : recalls) {
+            count += recall.getScore();
+        }
+
+        return count/recalls.size();
+    }
+
+    public boolean isRecallInRecalls(User user, Product product) {
+        return recallRepository.findByUser(user, product) != null;
     }
 }

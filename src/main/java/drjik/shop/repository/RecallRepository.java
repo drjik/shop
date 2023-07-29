@@ -1,6 +1,8 @@
 package drjik.shop.repository;
 
+import drjik.shop.entity.Product;
 import drjik.shop.entity.Recall;
+import drjik.shop.entity.User;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -16,6 +18,8 @@ public interface RecallRepository extends JpaRepository<Recall, Long> {
     List<Recall> findAllByProductIdNonTested(Long id);
     @Query("select r from Recall r where r.tested = false")
     List<Recall> findAllNonTested();
+    @Query("select r from Recall r where r.user = ?1 and r.product = ?2")
+    Recall findByUser(User user, Product product);
 
     @Modifying
     @Transactional

@@ -61,6 +61,6 @@ public class FormController {
             recallService.deleteRecall(Long.parseLong(parts[0]));
         }
 
-        return "redirect:/from_controller/check_recalls";
+        return "redirect:/form_controller/check_recalls";
     }
 }

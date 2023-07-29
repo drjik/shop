@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -26,6 +27,6 @@ public class Recall {
 
     private int score;
     private String description;
-    private Date publication_date;
+    private LocalDate publication_date;
     private boolean tested;
 }

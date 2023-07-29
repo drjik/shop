@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class Order {
 
   private String deliveryAddress;
 
-  private Date publicationDate;
+  private LocalDate publicationDate;
 
   @OneToMany(mappedBy = "order")
   private List<OrderProducts> products;

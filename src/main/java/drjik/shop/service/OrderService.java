@@ -9,6 +9,7 @@ import drjik.shop.repository.OrderProductsRepository;
 import drjik.shop.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -106,7 +107,7 @@ public class OrderService {
     return count;
   }
 
-  public void addOrder(User user, Status status, String deliveryAddress, Date publicationDate) {
+  public void addOrder(User user, Status status, String deliveryAddress, LocalDate publicationDate) {
     Order order = new Order();
 
     order.setUser(user);
@@ -125,7 +126,7 @@ public class OrderService {
       orderProducts.setProduct(product);
       orderProductsRepository.save(orderProducts);
     } else {
-      addOrder(user, Status.CART, null, Calendar.getInstance().getTime());
+      addOrder(user, Status.CART, null, LocalDate.now());
       addOrderProducts(user, product);
     }
   }

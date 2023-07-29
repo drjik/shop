@@ -34,14 +34,15 @@
                 <div class="info nameInfo" th:text="${product.name}"></div>
                 <div class="info categoryInfo" th:text="${'Категория: ' + product.category.name}"></div>
                 <div class="info priceInfo" th:text="${product.price + '₸'}"></div>
+                <div class="info ratingInfo" th:text="${'Средний рейтинг: ' + rating}"></div>
             </div>
             <th:block th:if="${!@orderService.isProductInCart(@userService.getCurrentUser(), product)}">
-                <form class="buyProduct" th:action="@{/products}" method="post">
+                <form class="buyProduct" th:action="@{/products/7}" method="post">
                     <button type="submit" name="addButton" th:value="${product.id}">Добавить в корзину</button>
                 </form>
             </th:block>
             <th:block th:if="${@orderService.isProductInCart(@userService.getCurrentUser(), product)}">
-                <form class="buyProduct" th:action="@{/products}" method="post">
+                <form class="buyProduct" th:action="@{/products/7}" method="post">
                     <div>
                         <button class="minusBtn" type="submit" name="removeButton" th:value="${product.id}">-</button>
                         <span th:text="${@orderService.countProductsInOrder(@userService.getCurrentUser(), product)}"></span>
@@ -51,16 +52,28 @@
             </th:block>
             <div class="recalls">
                 <h2>Отзывы</h2>
-                <form th:action="@{/products/7}" method="post">
-                    <div class="leaveFeedback">
-                        <h2 >Оставьте отзыв!</h2>
-                        <div class="scoreRecall"><input type="number" name="score" placeholder="Сколько звёзд?"></div>
-                        <div class="descriptionRecall">
-                            <input type="text" name="description" placeholder="Введите описание отзыва">
+
+                <th:block th:if="${@userService.getCurrentUser() != null and @recallService.isRecallInRecalls(@userService.getCurrentUser(), product) == false}">
+                    <form th:action="@{/products/7}" method="post">
+                        <div class="leaveFeedback">
+                            <h2 >Оставьте отзыв!</h2>
+                            <div class="scoreRecall"><input type="number" name="score" placeholder="Сколько звёзд?"></div>
+                            <div class="descriptionRecall">
+                                <input type="text" name="description" placeholder="Введите описание отзыва">
+                            </div>
+                            <button type="submit" name="id" th:value="${product.getId()}">Отправить отзыв</button>
                         </div>
-                        <button type="submit" name="id" th:value="${product.getId()}">Отправить отзыв</button>
-                    </div>
-                </form>
+                    </form>
+                </th:block>
+
+                <th:block th:if="${@userService.getCurrentUser() == null}">
+                    <div class="leaveFeedback"><a href="/login">Авторизуйтесь</a> чтобы оставить отзыв</div>
+                </th:block>
+
+                <th:block th:if="${@recallService.isRecallInRecalls(@userService.getCurrentUser(), product)}">
+                    <div class="leaveFeedback">Можно оставить только один отзыв</div>
+                </th:block>
+
                 <div class="recall" th:each="recall : ${recallsTested}">
                     <div class="topRecall">
                         <div>
