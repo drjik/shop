@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -22,5 +23,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
   @Modifying
   @Transactional
   @Query("update Order o set o.deliveryAddress = ?2, o.status = ?3, o.publicationDate = ?4 where o = ?1")
-  void updateCreateOrder(Order order, String address, Status status, Date date);
+  void updateCreateOrder(Order order, String address, Status status, LocalDate date);
 }

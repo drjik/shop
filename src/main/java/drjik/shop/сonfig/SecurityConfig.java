@@ -12,12 +12,6 @@ public class SecurityConfig {
         httpSecurity.csrf().disable();
         httpSecurity.authorizeHttpRequests(authorization -> {
            authorization
-                   .requestMatchers("/security_controller/second_resource")
-                   .authenticated();
-           authorization
-                   .requestMatchers("/cart")
-                   .authenticated();
-           authorization
                    .requestMatchers("/form_controller/add_product")
                    .hasRole("admin");
             authorization
@@ -26,9 +20,6 @@ public class SecurityConfig {
             authorization
                     .requestMatchers("/form_controller/check_recalls")
                     .hasRole("admin");
-           authorization
-                   .requestMatchers("/security_controller/current_user")
-                   .authenticated();
            authorization
                    .anyRequest()
                    .permitAll();

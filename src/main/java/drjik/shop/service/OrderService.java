@@ -133,7 +133,7 @@ public class OrderService {
 
   public void updateCreateOrder(User user, String address) {
     Order order = orderRepository.findByUserAndStatus(user, Status.CART);
-    orderRepository.updateCreateOrder(order, address, Status.ORDER_CREATED, Calendar.getInstance().getTime());
+    orderRepository.updateCreateOrder(order, address, Status.ORDER_CREATED, LocalDate.now());
   }
 
   public void removeOrderProducts(User user, Product product) {
