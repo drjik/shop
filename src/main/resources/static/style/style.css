@@ -89,6 +89,24 @@ body {
     display: flex;
     text-align: center;
 }
+
+.pagePanel {
+    margin: 10px 0;
+}
+
+.pagePanel a {
+    padding: 2px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #000000;
+    border: 1px solid #000000;
+    border-radius: 5px;
+}
+
+.currentPage {
+    background-color: #1c9c5c;
+    color: #ffffff;
+}
 /*PRODUCT PAGE*/
 .header {
     width: 100%;

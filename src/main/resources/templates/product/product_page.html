@@ -62,11 +62,18 @@
     </div>
 </div>
 <div class="pagePanel">
-    <a th:href="@{products?page=${page}}"></a>
-    <a th:href="@{products?page=${page}}"></a>
-    <a th:href="@{products?page=${page}}"></a>
-    <a th:href="@{products?page=${page + 1}}" th:text="${page + 1}"></a>
-    <a th:href="@{products?page=${page}}" th:text=">"></a>
+    <th:block th:if="${page} != 1">
+        <a th:href="${'products?page=' + (page - 2)}" th:text="'<'"></a>
+        <th:block th:if="${page} != 2">
+            <a th:href="${'products?page=' + (page - 3)}" th:text="${page - 2}"></a>
+        </th:block>
+        <a th:href="${'products?page=' + (page - 2)}" th:text="${page - 1}"></a>
+    </th:block>
+    <th:block th:if="${pageMax == null}">
+        <a class="currentPage" th:text="${page}"></a>
+        <a th:href="${'products?page=' + (page)}" th:text="${page + 1}"></a>
+        <a th:href="${'products?page=' + (page)}" th:text="'>'"></a>
+    </th:block>
 </div>
 </body>
 </html>

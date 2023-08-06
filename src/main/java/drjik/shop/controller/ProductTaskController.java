@@ -23,8 +23,11 @@ public class ProductTaskController {
         if (page == null) {
             page = 0;
         }
+        if (productService.getProduct(page, search).size() == 0) {
+            model.addAttribute("pageMax", page + 1);
+        }
         model.addAttribute("products", productService.getProduct(page, search));
-        model.addAttribute("page", page);
+        model.addAttribute("page", page + 1);
         return "product/product_page";
     }
 
