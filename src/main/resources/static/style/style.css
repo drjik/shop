@@ -84,6 +84,11 @@ body {
     color: #1c9c5c;
     background: rgba(160, 176, 169, 0.31);
 }
+
+.rightBlocks{
+    display: flex;
+    text-align: center;
+}
 /*PRODUCT PAGE*/
 .header {
     width: 100%;
