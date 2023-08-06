@@ -15,9 +15,6 @@ public class SecurityConfig {
                    .requestMatchers("/security_controller/second_resource")
                    .authenticated();
            authorization
-                   .requestMatchers("/cart")
-                   .authenticated();
-           authorization
                    .requestMatchers("/form_controller/add_product")
                    .hasRole("admin");
             authorization
