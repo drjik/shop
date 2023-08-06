@@ -24,6 +24,7 @@ public class ProductTaskController {
             page = 0;
         }
         model.addAttribute("products", productService.getProduct(page, search));
+        model.addAttribute("page", page);
         return "product/product_page";
     }
 
